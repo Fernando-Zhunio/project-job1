@@ -1,0 +1,46 @@
+<div>
+    <div class="row m-0 p-0">
+        <div class="col-3 border-right vh-100">
+            <div class="col text-center p-2">
+                <button class="btn btn-secondary mr-1" type="button">Ofertas</button>
+                <button class="btn btn-primary ml-1" type="button">Comprar</button>
+            </div>
+            <div class="col">
+                <input type="search" class="form-control" name="search" placeholder="buscar comprar">
+            </div>
+            <div>
+                <div class="alert alert-primary my-2" *ngFor="let item of peticiones" role="alert" (click)="selectPeticion(item)">
+                    <div>
+                        <span class="badge badge-warning">9</span>
+                        <span class="text-muted"> {{item.data.descripcion}}</span>
+                    </div>
+                    <strong class="m-0 p-0">&nbsp;&nbsp;{{item.data.categoria}}</strong>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 px-5">
+            <div *ngIf="currentPeticon" class="text-center text-white p-4 bg-primary">
+                <h5>{{currentPeticon.descripcion}}</h5>
+                <strong>{{currentPeticon.categoria}}</strong>
+            </div>
+            <div>
+                <div>
+                    <div class="alert alert-primary my-2" *ngFor="let item of chats;index as i" role="alert" (click)="selectChat(i)">
+                        <div class="d-flex bg-danger h-100">
+                            <div class="w-25">
+                                <!-- <img [src]="item.imagen" class="w-100 rounded" alt=""> -->
+                                <img src="/assets/imagenes/logo-fz.jpg" class="w-100 rounded img-message" alt="imagen">
+                            </div>
+                            <!-- <span class="badge badge-warning">9</span> -->
+                            <div class="d-flex justify-content-center align-items-center h-100 bg-dark">
+                                <p class="text-muted lead"> {{item.data.main_message}}</p>
+                            </div>
+                        </div>
+                        <!-- <strong class="m-0 p-0">&nbsp;&nbsp;{{item.categoria}}</strong> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <app-chats [currentChat]="currentChat" [messages]="messages" [peticionId]="peticionId" class="col-3 p-0 m-0"></app-chats>
+    </div>
+</div>
