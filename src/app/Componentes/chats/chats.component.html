@@ -40,14 +40,11 @@
     </div>
 </div> -->
 <!-- <div> -->
-<div *ngIf="currentChat">
-    <div class="card vh-100 rounded-0">
+<div class="h-100">
+    <div class="  h-100">
         <div class="card-header">{{currentChat.from}}</div>
-        <div class="card-body chat-body">
-            <div class="col-8 m-auto">
-                <img src="/assets/imagenes/logo-fz.jpg" class="w-100 rounded-circle" alt="">
-            </div>
-            <div *ngFor="let message of messages">
+        <div #chatbody class="card-body chat-body">
+            <div #messages *ngFor="let message of messages">
                 <ng-container *ngIf="message.from == myId; else elseTemplate">
                     <div class="chat-sms-send ">
                         <p class="text-break">{{message.content}}
@@ -63,8 +60,8 @@
             </div>
         </div>
         <div class="p-2 d-flex">
-            <textarea [(ngModel)]="message" id="my-textarea" placeholder="Escribe su mensaje" class="form-control rounded pr-4" name="" rows="1"></textarea>
-            <button type="button" class="btn btn-primary rounded-circle btn-sm"><i
+            <textarea [(ngModel)]="message" id="my-textarea" placeholder="Escribe su mensaje" class="form-control input-send" name="" rows="1"></textarea>
+            <button type="button" class="btn btn-add-send btn-primary rounded-circle btn-sm"><i
                         class="fas fa-paper-plane" (click)="sendMessage()"></i></button>
         </div>
     </div>

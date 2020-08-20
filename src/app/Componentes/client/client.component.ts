@@ -12,10 +12,9 @@ import { Imessage } from "../../interfaces/imessage";
 })
 export class ClientComponent implements OnInit {
   ngOnInit() {
-    // this.myId = localStorage.getItem('myId');
-    // this.itemCollecion = this.afs.collection<any>(this.myId);
-    // this.loadMessages(this.myId);
+    this.heightGrib = window.innerHeight-50;
   }
+  heightGrib:number;
   title = "chatfirebase";
   myId: string="fzhunio91@hotmail.com";
   username: string = "Fernando Zhunio R.";
@@ -26,28 +25,23 @@ export class ClientComponent implements OnInit {
   ];
 
   currentPeticon = null;
-  // mensajes:{isMy:boolean,type:'string'|'File',content:any,date?:Date}[]=[
-  //   {isMy:false,type:'string',content:'Mensaje de prueba'},
-  //   {isMy:true,type:'string',content:'Mensaje de prueba'},
-  //   {isMy:false,type:'string',content:'Mensaje de prueba'},
-  //   {isMy:true,type:'string',content:'Mensaje de prueba'},
-  //   {isMy:true,type:'string',content:'Mensaje de prueba'},
-  // ];
+  openSideNav=false;
   messages=[];
   message: string = "";
   // chats: AngularFirestoreCollection<any>;
   chats:any[]=[];
-  currentChat: { from: string; id:string } = null;
+  currentChat: { from: string; id:string } = {from:'',id:''};
   newMessage: Imessage;
   itemCollecion: AngularFirestoreCollection<any>;
   item: Observable<any>;
-  // myId:string;
+  peticionId:string;
   forId: string;
+
   constructor(private afs: AngularFirestore) {
-    this.loadMessages("fzhunio91@hotmail.com");
+    this.loadPeticiones("fzhunio91@hotmail.com");
   }
 
-  loadMessages(peticion) {
+  loadPeticiones(peticion) {
     this.itemCollecion = this.afs.collection<any>(peticion);
     this.itemCollecion.snapshotChanges().subscribe((res: any) => {
       console.log(res);
@@ -58,14 +52,9 @@ export class ClientComponent implements OnInit {
         });
       });
       console.log('peticiones: ',this.peticiones);
-      
-      // this.chats= res;
-      // this.peticiones = res
-      //  console.log(this.messages);
     });
   }
 
-  peticionId:string;
   selectPeticion(item) {
     this.peticionId = item.id;
     this.itemCollecion.doc(item.id).collection('chats').snapshotChanges().subscribe(res=>{
@@ -80,6 +69,7 @@ export class ClientComponent implements OnInit {
         console.log(newPush);
         this.chats.push(newPush);
       });
+      this.openSideNav=false;
       // console.log('chats :',this.chats); 
     });
     this.currentPeticon = item.data;
@@ -90,9 +80,10 @@ export class ClientComponent implements OnInit {
     this.afs
     .collection<any>(this.myId)
     .doc(this.peticionId).collection('chats')
-    .doc(this.currentChat.id).collection('messages').valueChanges().subscribe(res=>{
+    .doc(this.currentChat.id).collection('messages',ref=>ref.orderBy('date')).valueChanges().subscribe(res=>{
       console.log('messages: ',res);
       this.messages = res;
+      this.openSideNav = true;
     })
     // this.path.chatId = this.currentChat.messages.id
   }

@@ -1,6 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChildren, QueryList, ViewChild, ElementRef } from '@angular/core';
 import { Imessage } from '../../interfaces/imessage';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-chats',
@@ -12,13 +13,31 @@ export class ChatsComponent implements OnInit {
  @Input() currentChat;
  @Input() peticionId;
  @Input() messages;
+ @Input() heightGrib;
+ @ViewChildren('messages') things: QueryList<any>;
+ @ViewChild('chatbody',{static:true}) chatBody : ElementRef;
+ chatSuscription:Subscription;
+ myId='fzhunio91@hotmail.com';
+ message:string;
+ newMessage:Object;
+ 
+ constructor(private afs:AngularFirestore){}
+
   ngOnInit() {
+    setTimeout(() => {
+      this.chatBody.nativeElement.scrollTop = this.chatBody.nativeElement.scrollHeight;
+      this.chatSuscription = this.things.changes.subscribe(t => {
+         this.chatBody.nativeElement.scrollTop = this.chatBody.nativeElement.scrollHeight;
+         console.log('chat abierto'); 
+       });
+    }, 4000);
   }
-  constructor(private afs:AngularFirestore){
-  } 
-  myId='fzhunio91@hotmail.com';
-  message:string;
-  newMessage:Object;
+
+  ngOnDestroy(): void {
+    this.chatSuscription.unsubscribe();
+  }
+
+
   sendMessage() {
     console.log('enviando');
     let newMessage = {
@@ -32,8 +51,6 @@ export class ChatsComponent implements OnInit {
       .collection<any>(this.myId)
       .doc(this.peticionId).collection('chats')
       .doc(this.currentChat.id).collection('messages').add(newMessage)
-      .then(res=>console.log('res ',res)).catch(err=>console.log(err));   
-    // this.afs.collection<any>(this.currentMessage.from).doc(this.myId).set(this.newMessage);
-    // this.itemCollecion.add(this.newMessage);
+      .then(res=>console.log('res ',res)).catch(err=>console.log(err));
   }
 }

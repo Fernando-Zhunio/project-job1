@@ -12,22 +12,36 @@ import {AngularFirestoreModule} from '@angular/fire/firestore'
 import {AngularFireModule} from '@angular/fire';
 import { PeticionComponent } from './Componentes/peticion/peticion.component';
 import { ChatsComponent } from './Componentes/chats/chats.component';
-import { ClientComponent } from './Componentes/client/client.component'
+import { ClientComponent } from './Componentes/client/client.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import {MatGridListModule, MatSidenavModule, MatToolbarModule, MatButtonModule, MatCardModule, MatBadgeModule, MatChipsModule, MatIconModule} from '@angular/material';
+import { HomeComponent } from './Componentes/home/home.component';
+
 @NgModule({
   declarations: [
     AppComponent,
     PeticionComponent,
     ChatsComponent,
-    ClientComponent
+    ClientComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
+    MatButtonModule,
+    MatCardModule,
+    // MatBadgeModule,
+    MatChipsModule,
+    MatIconModule,
+    MatGridListModule,
+    MatToolbarModule,
+    MatSidenavModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
+    BrowserAnimationsModule,
     // AngularFireDatabaseModule,
   ],
   providers: [],
