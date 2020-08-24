@@ -16,5 +16,14 @@ body {
 }
 
 .primary {
-    background-color: #25187a;
+    background-color: #25187a !important;
+    color: white;
+}
+
+.color-primary {
+    color: #25187a !important;
+}
+
+button {
+    outline: none;
 }

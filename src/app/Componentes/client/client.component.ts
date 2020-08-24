@@ -3,8 +3,9 @@ import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from "@angular/fire/firestore";
-import { Observable } from "rxjs";
+import { Observable, Subscription } from "rxjs";
 import { Imessage } from "../../interfaces/imessage";
+import { groupBy } from "rxjs/operators";
 @Component({
   selector: "app-client",
   templateUrl: "./client.component.html",
@@ -12,12 +13,13 @@ import { Imessage } from "../../interfaces/imessage";
 })
 export class ClientComponent implements OnInit {
   ngOnInit() {
-    this.heightGrib = window.innerHeight-50;
+    this.heightGrib = window.innerHeight - 50;
   }
-  heightGrib:number;
+  heightGrib: number;
   title = "chatfirebase";
-  myId: string="fzhunio91@hotmail.com";
+  myId: string;
   username: string = "Fernando Zhunio R.";
+
   peticiones = [
     // {id:'fzhunio91@hotmail.com',categoria:'Videojuego',text:'Necesito un PS4 slim a buen precio'},
     // {id:'fzreyes1991@gmail.com',categoria:'Vestimenta',text:'Necesito Zapatos Adidas talla 42'},
@@ -25,24 +27,30 @@ export class ClientComponent implements OnInit {
   ];
 
   currentPeticon = null;
-  openSideNav=false;
-  messages=[];
-  message: string = "";
+  openSideNav = false;
+  messages = [];
+  // message: string = "";
   // chats: AngularFirestoreCollection<any>;
-  chats:any[]=[];
-  currentChat: { from: string; id:string } = {from:'',id:''};
-  newMessage: Imessage;
+  chats: any;
+  // currentChat: { data: Object; id: string } = { data: { from: "" }, id: "" };
+  currentChat: string;
+  // newMessage: Imessage;
   itemCollecion: AngularFirestoreCollection<any>;
-  item: Observable<any>;
-  peticionId:string;
-  forId: string;
+  // item: Observable<any>;
+  peticionId: string;
+  keys: {};
+  // forId: string;
 
   constructor(private afs: AngularFirestore) {
-    this.loadPeticiones("fzhunio91@hotmail.com");
+    if (!localStorage.getItem("myId")) {
+      alert("Usted no cuenta con un id por favor cierre y abra sesión");
+    }
+    this.myId = localStorage.getItem("myId");
+    this.loadPeticiones(this.myId);
   }
 
   loadPeticiones(peticion) {
-    this.itemCollecion = this.afs.collection<any>(peticion);
+    this.itemCollecion = this.afs.collection<any>(`${peticion}_client`);
     this.itemCollecion.snapshotChanges().subscribe((res: any) => {
       console.log(res);
       res.forEach((catData: any) => {
@@ -51,40 +59,93 @@ export class ClientComponent implements OnInit {
           data: catData.payload.doc.data(),
         });
       });
-      console.log('peticiones: ',this.peticiones);
+      console.log("peticiones: ", this.peticiones);
     });
   }
 
   selectPeticion(item) {
     this.peticionId = item.id;
-    this.itemCollecion.doc(item.id).collection('chats').snapshotChanges().subscribe(res=>{
-      console.log('select petition: ',res);
-      this.chats=[];
-      // let preChats = [];
-      res.forEach((catData: any) => {
-        let newPush = {
-          id: catData.payload.doc.id,
-          data: catData.payload.doc.data()
+    // this.itemCollecion.doc(item.id).collection('chats').snapshotChanges().subscribe(res=>{
+    //   console.log('select petition: ',res);
+    //   this.chats=[];
+    //   res.forEach((catData: any) => {
+    //     let newPush = {
+    //       id: catData.payload.doc.id,
+    //       data: catData.payload.doc.data()
+    //     }
+    //     console.log(newPush);
+    //     this.chats.push(newPush);
+    //   });
+    //   this.openSideNav=false;
+    // });
+    // this.currentPeticon = item.data;
+    this.chats = [];
+    this.keys=[]
+    this.itemCollecion
+      .doc(item.id)
+      .collection("chats",ref=>ref.orderBy('fecha'))
+      .valueChanges()
+      .subscribe((res) => {
+        console.log("select petition: ", res);
+        if (res.length > 0) { 
+          console.log(this.groupBy(res));
+
+          this.chats = this.groupBy(res);
+          // if (this.chats != null) {
+             this.keys = Object.keys(this.chats);
+            delete this.keys[this.myId + "_client"];
+            console.log(this.keys);
+            // return this.keys;
+          // }
+          // return [];
         }
-        console.log(newPush);
-        this.chats.push(newPush);
       });
-      this.openSideNav=false;
-      // console.log('chats :',this.chats); 
-    });
+      this.openSideNav = false;
     this.currentPeticon = item.data;
   }
+
   // messages=[];
+  suscribe_message: Subscription;
   selectChat(index) {
-    this.currentChat = this.chats[index];
-    this.afs
-    .collection<any>(this.myId)
-    .doc(this.peticionId).collection('chats')
-    .doc(this.currentChat.id).collection('messages',ref=>ref.orderBy('date')).valueChanges().subscribe(res=>{
-      console.log('messages: ',res);
-      this.messages = res;
-      this.openSideNav = true;
-    })
+    // this.currentChat = this.chats[index];
+    // //  this.suscribe_message.unsubscribe();
+    // this.suscribe_message = this.afs
+    //   .collection<any>(this.myId)
+    //   .doc(this.peticionId)
+    //   .collection(
+    //     "chats",
+    //     // .doc(this.currentChat.id).collection('messages',ref=>ref.orderBy('date')).valueChanges().subscribe(res=>{
+    //     (ref) => ref.orderBy("fecha")
+    //   )
+    //   .valueChanges()
+    //   .subscribe((res) => {
+    //     console.log("messages: ", res);
+
+    // this.messages = res;
+
+    // this.openSideNav = true;
+    // });
     // this.path.chatId = this.currentChat.messages.id
+    this.openSideNav = true;
+    this.currentChat = index;
+  }
+
+  // keys() : Array<string> {
+  //   if(this.chats!=null)
+  //   {
+  //     let key = Object.keys(this.chats);
+  //     delete key[this.myId+'_client'];
+  //     console.log(key);
+  //     return key;
+  //   }
+  //   return []
+  // }
+  groupBy(array) {
+    let result = array.reduce(function (r, a) {
+      r[a.user] = r[a.user] || [];
+      r[a.user].push(a);
+      return r;
+    }, Object.create(null));
+    return result;
   }
 }

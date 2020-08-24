@@ -65,10 +65,10 @@
     margin: 0;
     padding: 0;
     width: 100%;
-    padding: 5px 0 5px 0;
+    // padding: 5px 0 5px 0;
     display: flex;
-    border-top: 1px gray solid;
-    background-color: red;
+    // border-top: 1px gray solid;
+    // background-color: red;
 }
 
 .chat-body {
@@ -79,10 +79,9 @@
     font-family: 'Candara';
 }
 
-.btn-send {
-    height: 70%;
-}
-
+// .btn-send {
+//     height: 70%;
+// }
 .chat-sms-recived {
     // padding: 5px;
     float: left;
@@ -126,11 +125,34 @@
 textarea {
     resize: none;
     outline: none;
-    padding: 5px;
+    // padding: 15px;
+    width: 100%;
+    border-radius: 20px;
+    position: absolute;
+    // position: relative;
+    bottom: 0;
+    // height: 30px;
 }
 
-.btn-add-send {
-    margin-left: 7px;
-    width: 50px;
-    height: 50px;
+.textarea-style {
+    padding: 11px 45px 31px 20px;
+}
+
+textarea::-webkit-scrollbar {
+    display: none;
+}
+
+.btn-send {
+    // margin-left: 7px;
+    // width: 50px;
+    // height: 50px;
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+}
+
+.mat-form-field {
+    // background-color: red;
+    margin-bottom: -1.2em;
+    // padding-bottom: 0;
 }

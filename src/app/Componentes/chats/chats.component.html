@@ -1,69 +1,47 @@
-<!-- <div class="main">
-
-    <div class="content center-h-v ">
-        <input type="text" [(ngModel)]="myId" placeholder="Escriba mi id" class="input-send">
-        <input type="text" [(ngModel)]="forId" placeholder="Escriba para quien" class="input-send">
-        <button class="btn-send" (click)="captureMessage()">send</button>
-        <ul class="list-group">
-            <li (click)="lookMessage()" class="list-group-item" *ngFor="let item of messages">
-                {{item.from}}
-            </li>
-        </ul>
-    </div>
-    <div class="chat ">
-        <div class="chat-header">
-            <div class="img-content">
-                <img src="../assets/imagenes/logo-fz.jpg" class="img-avatar" alt="">
-            </div>
-            <p class="name-user">{{username}}</p>
-        </div>
-        <div class="chat-body">
-            <div *ngFor="let message of messages">
-                <ng-container *ngIf="(myId == message.from); else elseTemplate">
-                    <div class="chat-sms-send ">
-                        <p class="text-break">{{message.content}}
-                        </p>
-                    </div>
-                </ng-container>
-                <ng-template #elseTemplate>
-                    <div class="chat-sms-recived">
-                        <p class="text-break">{{message.content}}
-                        </p>
-                    </div>
-                </ng-template>
-            </div>
-        </div>
-        <div class="chat-footer">
-            <input type="text" [(ngModel)]="message" class="input-send">
-            <button class="btn-send" (click)="sendMessage()">send</button>
-        </div>
-    </div>
-</div> -->
-<!-- <div> -->
 <div class="h-100">
-    <div class="  h-100">
-        <div class="card-header">{{currentChat.from}}</div>
-        <div #chatbody class="card-body chat-body">
+    <mat-card class="h-100 rounded-0 pb-0">
+        <mat-card-header class="chat-header">{{messages[0]?.user}}</mat-card-header>
+        <mat-card-content #chatbody id="chatbody" class="card-body chat-body">
             <div #messages *ngFor="let message of messages">
-                <ng-container *ngIf="message.from == myId; else elseTemplate">
-                    <div class="chat-sms-send ">
-                        <p class="text-break">{{message.content}}
-                        </p>
+                <ng-container *ngIf="message?.file; else elseTemplate">
+                    <div class="m-2 text-center">
+                        <img [src]="message.file" class="rounded-circle" width="200px" height="200px" alt="">
                     </div>
                 </ng-container>
                 <ng-template #elseTemplate>
-                    <div class="chat-sms-recived">
-                        <p class="text-break">{{message.content}}
-                        </p>
-                    </div>
+                    <ng-container *ngIf="message.isMy; else elseTemplate">
+                        <div class="chat-sms-send ">
+                            <p class="text-break">{{message.message}}
+                            </p>
+                        </div>
+                    </ng-container>
+                    <ng-template #elseTemplate>
+                        <div class="chat-sms-recived">
+                            <p class="text-break">{{message.message}}
+                            </p>
+                        </div>
+                    </ng-template>
                 </ng-template>
             </div>
-        </div>
-        <div class="p-2 d-flex">
-            <textarea [(ngModel)]="message" id="my-textarea" placeholder="Escribe su mensaje" class="form-control input-send" name="" rows="1"></textarea>
-            <button type="button" class="btn btn-add-send btn-primary rounded-circle btn-sm"><i
-                        class="fas fa-paper-plane" (click)="sendMessage()"></i></button>
-        </div>
-    </div>
+        </mat-card-content>
+        <!-- <textarea (keyup)="keyUpSms()" [(ngModel)]="message" class="px" cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="3"></textarea> -->
+        <mat-card-footer class=" chat-footer position-relative d-flex">
+            <textarea (keyup)="keyUpSms()" wrap="physical" [(ngModel)]="message" class="textarea-style" cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="3">
+            </textarea>
+            <button [disabled]='!btnIsValid' (click)="sendMessage()" class="btn-send primary" mat-mini-fab>
+                <mat-icon>send</mat-icon>
+            </button>
+            <!-- <button mat-mini-fab class="btn-send"><mat-icon>send</mat-icon></button> -->
+
+            <!-- <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Escriba su mensaje</mat-label>
+                <button mat-mini-fab><mat-icon>send</mat-icon></button> -->
+            <!-- <textarea (keyup)="keyUpSms()" [(ngModel)]="message" class="" matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="3"></textarea> -->
+            <!-- <button [disabled]='!btnIsValid' (click)="sendMessage()" class="" mat-icon-button matSuffix>
+                    <mat-icon>send</mat-icon>
+                </button>
+            </mat-form-field> -->
+        </mat-card-footer>
+    </mat-card>
 </div>
 <!-- </div> -->

@@ -1,6 +1,14 @@
 import { Component, OnInit } from "@angular/core";
-import { FormGroup, FormControl } from "@angular/forms";
+import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { AngularFirestore } from "@angular/fire/firestore";
+import { AngularFireStorage } from "@angular/fire/storage";
+// import { AngularFireMessaging } from '@angular/fire/messaging';
+
+// import { AngularFireStorage } from "@angular/fire/st";
+import { Subscription, Observable } from "rxjs";
+import { finalize } from "rxjs/operators";
+import { MatDialog } from '@angular/material';
+import { ModalPeticionComponent } from '../Modals/modal-peticion/modal-peticion.component';
 
 @Component({
   selector: "app-peticion",
@@ -8,40 +16,130 @@ import { AngularFirestore } from "@angular/fire/firestore";
   styleUrls: ["./peticion.component.scss"],
 })
 export class PeticionComponent implements OnInit {
-  constructor(private afs: AngularFirestore) {}
-  formMessage = new FormGroup({
-    message: new FormControl(null),
-    file: new FormControl(null),
-    precio: new FormControl(null),
-  });
-  peticiones = dataPeticion;
+  collection_pedidos = "Pedidos";
+
+  // itemCollecion: AngularFirestoreCollection<any>;
+  $collecion_suscribe: Subscription;
+  peticiones = [];
+  // messagingFire:any;
+
+  constructor(
+    private afs: AngularFirestore,
+    public dialog: MatDialog,
+    // private afm:AngularFireMessaging
+    private afstorage: AngularFireStorage
+  ) {
+    // contruccion de base de datos firebase
+    // this.messagingFire =
+    this.$collecion_suscribe = afs
+      .collection(this.collection_pedidos, (ref) => ref.orderBy("fecha"))
+      .valueChanges()
+      .subscribe((res) => {
+        console.log(res);
+        this.peticiones = res;
+      });
+  }
+  // peticiones = dataPeticion;
+  img: File;
   ngOnInit() {}
 
-  sendMessage() {
-    let mensaje = this.formMessage.controls["message"].value;
-    // let file = this.formMessage.controls["file"].value;
-    let file = 'una imagen va aqui'
-    let precio = this.formMessage.controls["precio"].value;
-    let from = localStorage.getItem("myId");
-    console.log('enviando...');
-    console.log(this.currentTo);  
-    this.afs
-      .collection<any>(this.currentTo.user)// a que usuario le voy a enviar el mensaje
-      .doc(this.currentTo.id)// el id del la peticion que hace
-      .collection<any>("chats")
-      .add({ mensaje, file, precio, from })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => console.log(err));
+  ngOnDestroy(): void {
+    this.$collecion_suscribe.unsubscribe();
   }
 
-  currentTo:{user:string,id:string}
-  showModal(user,id){
-    this.currentTo = {user,id}
+  uploadImg(event) {
+    this.img = event.target.files[0];
+    // let path = 'FirstMessage';
+    // this.afs.ref()
   }
 
+  myId = localStorage.getItem("myId");
+  url: Observable<string>;
 
+  sendMessage(url) {
+    // let batch = this.afs.firestore.batch();
+    this.currentTo = { to: url.from, id_peticion: url.id_pedido };
+    console.log(this.currentTo);
+    if(this.myId!=this.currentTo.to){
+      const dialogRef = this.dialog.open(ModalPeticionComponent, {
+        // width: '250px',
+        panelClass:["col-10","col-lg-7"],
+        data: {to: this.currentTo.to},
+        disableClose: true,
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        if(!result.state)
+        {
+          alert('Mensaje cancelado');
+          return
+        }
+        let id = Math.random().toString(36).substring(2);
+        let patch = "FirstMessage/" + id;
+        let ref = this.afstorage.ref(patch);
+        this.afstorage
+          .upload(patch, result.imagen)
+          .snapshotChanges()
+          .pipe(
+            finalize(() => {
+              ref.getDownloadURL().subscribe((res) => {
+                console.log({ res });
+                let message = result.message;
+                let file = res;
+                let precio = result.precio;
+                let user = this.myId + "_client";
+                let fecha = new Date().getTime();
+                console.log("enviando...");
+                console.log(this.currentTo);
+                // this.afs
+                //   .collection<any>(this.currentTo.to+'_client') // a que usuario le voy a enviar el mensaje
+                //   .doc(this.currentTo.id_peticion) // el id del la peticion que hace
+                //   .collection<any>("chats")
+                //   .add({ message, file, precio, user,fecha })
+                //   .then((res) => {
+                //     console.log(res);
+                //     alert('Enviado con exito');
+                //   })
+                //   .catch((err) => console.log(err));
+    
+                let document = this.afs.firestore
+                  .collection(this.currentTo.to + "_client") // a que usuario le voy a enviar el mensaje
+                  .doc(this.currentTo.id_peticion) // el id del la peticion que hace
+                  .collection("chats")
+                  .doc();
+    
+                let document2 = this.afs.firestore
+                  .collection(this.myId + "_client")
+                  .doc("Client")
+                  .collection("clients")
+                  .doc();
+                let batch = this.afs.firestore.batch();
+                batch.set(document, { message, file, precio, user, fecha });
+                batch.set(document2, {
+                  message,
+                  to: this.currentTo.to + "_client",
+                  peticion_id: this.currentTo.id_peticion,
+                });
+                batch.commit().then((res) => console.log(res));
+              });
+            })
+          )
+          .subscribe();
+      });
+    }
+    else{
+      alert("Este mensaje le pertenece a usted no se puede enviar un mensaje a usted mismo")
+    }
+  }
+
+  currentTo: info_peticion_send;
+  // showModal(url) {
+  //   this.currentTo = { to: url.from, id_peticion: url.id_pedido };
+  // }
+}
+
+interface info_peticion_send {
+  to: string;
+  id_peticion: string;
 }
 
 const dataPeticion = [

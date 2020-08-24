@@ -14,8 +14,20 @@ import { PeticionComponent } from './Componentes/peticion/peticion.component';
 import { ChatsComponent } from './Componentes/chats/chats.component';
 import { ClientComponent } from './Componentes/client/client.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
-import {MatGridListModule, MatSidenavModule, MatToolbarModule, MatButtonModule, MatCardModule, MatBadgeModule, MatChipsModule, MatIconModule} from '@angular/material';
+import {MatGridListModule,
+   MatSidenavModule,
+   MatToolbarModule,
+   MatButtonModule,
+   MatCardModule,
+   MatBadgeModule, MatChipsModule, MatIconModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatMenuModule, MatDialogModule, MatListModule} from '@angular/material';
 import { HomeComponent } from './Componentes/home/home.component';
+// import {AutosizeModule} from 'ngx-autosize';
+import {TextFieldModule} from '@angular/cdk/text-field';
+import { SellerComponent } from './Componentes/seller/seller.component';
+import { CreateComponent } from './Componentes/create/create.component';
+import { AngularFireStorageModule } from '@angular/fire/storage';
+import { ModalPeticionComponent } from './Componentes/Modals/modal-peticion/modal-peticion.component';
+
 
 @NgModule({
   declarations: [
@@ -23,7 +35,11 @@ import { HomeComponent } from './Componentes/home/home.component';
     PeticionComponent,
     ChatsComponent,
     ClientComponent,
-    HomeComponent
+    HomeComponent,
+    SellerComponent,
+    CreateComponent,
+    ModalPeticionComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -33,7 +49,14 @@ import { HomeComponent } from './Componentes/home/home.component';
     MatButtonModule,
     MatCardModule,
     // MatBadgeModule,
+    TextFieldModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatInputModule,
+    MatDialogModule,
     MatChipsModule,
+    MatListModule,
+    MatMenuModule,
     MatIconModule,
     MatGridListModule,
     MatToolbarModule,
@@ -41,9 +64,12 @@ import { HomeComponent } from './Componentes/home/home.component';
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
+    AngularFireStorageModule,
     BrowserAnimationsModule,
+    // AutosizeModule
     // AngularFireDatabaseModule,
   ],
+  entryComponents:[ModalPeticionComponent],
   providers: [],
   bootstrap: [AppComponent]
 })
