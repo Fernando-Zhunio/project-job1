@@ -1,67 +1,79 @@
 <mat-sidenav-container>
     <mat-sidenav-content>
         <mat-grid-list cols="4" [rowHeight]="heightGrib+'px'">
-            <!-- <mat-grid-tile colspan="4"> 
-            </mat-grid-tile> -->
-            <mat-grid-tile colspan="1" rowspan="1">
-                <div class=" border-right h-100 w-100">
-                    <div class="text-center p-2">
-                        <button mat-raised-button routerLink="/oferts" class="mr-2">Ofertas</button>
-                        <button mat-raised-button color="primary" routerLink="/create">Compras</button>
-                    </div>
-                    <div class="col">
-                        <!-- <input type="search" class="form-control" name="search" placeholder="buscar comprar"> -->
-                        <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Buscar compras</mat-label>
-                            <input matInput placeholder="Escriba su compra" type="search">
-                            <mat-icon matSuffix>search</mat-icon>
-                            <!-- <mat-hint>Hint</mat-hint> -->
-                        </mat-form-field>
-                    </div>
-                    <div class="px-3 mt-2">
-
-                        <!-- <mat-action-list> -->
-                        <!-- <mat-list-item> -->
-                        <mat-card class="my-1" *ngFor="let item of peticiones" (click)="selectPeticion(item)">
-
-                            <p class="mat-card-subtitle"><span class="count mat-body-strong">2</span>&nbsp;&nbsp;{{item.data.descripcion}}</p>
-                            <mat-card-subtitle class="color-primary mat-body-strong">&nbsp;&nbsp;&nbsp;&nbsp;
-                                <mat-icon [inline]="true">{{item.data.icon}}</mat-icon> <span>{{item.data.categoria}}</span>
-                            </mat-card-subtitle>
-                        </mat-card>
-                        <!-- </mat-list-item> -->
-                        <!-- <button mat-list-item (click)="save()"> Save </button> -->
-                        <!-- <button mat-list-item (click)="undo()"> Undo </button> -->
-                        <!-- </mat-action-list> -->
-                    </div>
-                </div>
-            </mat-grid-tile>
-            <mat-grid-tile colspan="3" rowspan="1">
-                <div class="h-100 col-10">
-                    <mat-card *ngIf="currentPeticon" class="text-center primary text-white my-2 p-4">
-                        <h5>{{currentPeticon.descripcion}}</h5>
-                        <strong>{{currentPeticon.categoria}}</strong>
-                    </mat-card>
-                    <div>
-                        <div class="mb-2">
-                            <!-- (click)="selectChat(i)" -->
-                            <mat-card class="mt-1" *ngFor="let item of keys" (click)="selectChat(item)">
-                                <mat-grid-list cols="4" rowHeight="fit" [style.height]=" '100px'" [gutterSize]="'1px'">
-                                    <mat-grid-tile colspan="1" rowspan="1">
-                                        <img mat-card-image class="w-100" [src]="chats[item][0].file" alt="Photo of a Shiba Inu" alt="">
-                                    </mat-grid-tile>
-                                    <mat-grid-tile colspan="3" rowspan="1">
-                                        <p class="text-muted lead"> {{chats[item][0].message}}</p>
-                                    </mat-grid-tile>
-                                </mat-grid-list>
+            <mat-grid-tile class="position-relative" colspan="1" rowspan="1">
+                <div class="h-100 w-100 m-0 p-0">
+                    <div class="border-right panel-left w-100">
+                        <div class="text-center p-2">
+                            <button mat-raised-button routerLink="/oferts" class="mr-2">Ofertas</button>
+                            <button mat-raised-button color="primary" routerLink="/create">Compras</button>
+                        </div>
+                        <div class="col">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Buscar compras</mat-label>
+                                <input matInput placeholder="Escriba su compra" type="search">
+                                <mat-icon matSuffix>search</mat-icon>
+                            </mat-form-field>
+                        </div>
+                        <div class="px-3 mt-2">
+                            <mat-card class="my-1 py-2" *ngFor="let item of peticiones" (click)="selectPeticion(item)">
+                                <p class="mat-card-subtitle m-0 p-0"><span class="count mat-body-strong">2</span>&nbsp;&nbsp;{{item.data.descripcion}}</p>
+                                <mat-card-subtitle class="color-primary mat-body-strong">&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <mat-icon>{{item.data.icon}}</mat-icon>&nbsp;<span>{{item.data.categoria}}</span>
+                                </mat-card-subtitle>
                             </mat-card>
                         </div>
+                        <mat-toolbar class="primary tool">
+                            <div class="m-auto">
+                                <mat-icon>construction</mat-icon>
+                                <span> Ajustes</span>
+                            </div>
+                        </mat-toolbar>
+                    </div>
+                </div>
+
+            </mat-grid-tile>
+            <mat-grid-tile class="over-auto" colspan="3" rowspan="1">
+                <div class="h-100 col-10">
+                    <ng-container *ngIf="currentPeticon">
+                        <mat-card class="text-center primary text-white my-2 p-4">
+                            <h5>{{currentPeticon.descripcion}}</h5>
+                            <strong>{{currentPeticon.categoria}}</strong>
+                        </mat-card>
+                        <div class="col my-2">
+                            <!-- <input type="search" class="form-control" name="search" placeholder="buscar comprar"> -->
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Buscar mensaje</mat-label>
+                                <input matInput placeholder="Escriba su compra" type="search">
+                                <mat-icon matSuffix>search</mat-icon>
+                                <!-- <mat-hint>Hint</mat-hint> -->
+                            </mat-form-field>
+                        </div>
+                    </ng-container>
+                    <div class="">
+                        <mat-card class="mb-2 py-0 pl-0" *ngFor="let item of keys" (click)="selectChat(item);sidebar.toggle()">
+                            <mat-grid-list class=" mb-2" cols="4" rowHeight="fit" [style.height]=" '100px'" [gutterSize]="'1px'">
+                                <mat-grid-tile class="py-0" colspan="1" rowspan="8">
+                                    <img class="w-100 h-100 mat-card p-0" [src]="chats[item][0].file" alt="Photo of a Shiba Inu" alt="">
+                                </mat-grid-tile>
+                                <mat-grid-tile colspan="3" rowspan="5">
+                                    <span class="text-muted lead"> {{chats[item][0].message}}</span>
+                                </mat-grid-tile>
+                                <mat-grid-tile colspan="3" rowspan="3">
+                                    <span class="w-100 d-flex justify-content-end">
+                                    <mat-chip-list  aria-label="precio">
+                                        <mat-chip  color="accent" selected>${{chats[item][0].precio}}</mat-chip>
+                                    </mat-chip-list>
+                                    </span>
+                                </mat-grid-tile>
+                            </mat-grid-list>
+                        </mat-card>
                     </div>
                 </div>
             </mat-grid-tile>
         </mat-grid-list>
     </mat-sidenav-content>
-    <mat-sidenav position="end" mode="side" [opened]="openSideNav" class="sidenav">
+    <mat-sidenav position="end" mode="push" #sidebar [opened]="openSideNav" class="sidenav">
         <app-chats [forId]="myId+'_client'" [messages]="currentChat?chats[currentChat]:null" [peticionId]="peticionId" [isMy]="true" class="col-3 p-0 m-0">
             <!-- <app-chats [currentChat]="currentChat" [messages]="messages" [peticionId]="peticionId" class="col-3 p-0 m-0"> -->
         </app-chats>

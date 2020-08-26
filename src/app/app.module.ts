@@ -19,7 +19,7 @@ import {MatGridListModule,
    MatToolbarModule,
    MatButtonModule,
    MatCardModule,
-   MatBadgeModule, MatChipsModule, MatIconModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatMenuModule, MatDialogModule, MatListModule} from '@angular/material';
+   MatChipsModule, MatIconModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatMenuModule, MatDialogModule, MatListModule} from '@angular/material';
 import { HomeComponent } from './Componentes/home/home.component';
 // import {AutosizeModule} from 'ngx-autosize';
 import {TextFieldModule} from '@angular/cdk/text-field';
@@ -27,6 +27,10 @@ import { SellerComponent } from './Componentes/seller/seller.component';
 import { CreateComponent } from './Componentes/create/create.component';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { ModalPeticionComponent } from './Componentes/Modals/modal-peticion/modal-peticion.component';
+// import {ScrollableModule} from '@angular/cdk/scrolling';
+import { ScrollingModule } from '@angular/cdk/scrolling';
+// import { FlexLayoutModule } from "@angular/flex-layout";
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 
 @NgModule({
@@ -46,8 +50,10 @@ import { ModalPeticionComponent } from './Componentes/Modals/modal-peticion/moda
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
+    
     MatButtonModule,
     MatCardModule,
+    ScrollingModule,
     // MatBadgeModule,
     TextFieldModule,
     MatFormFieldModule,
@@ -70,7 +76,9 @@ import { ModalPeticionComponent } from './Componentes/Modals/modal-peticion/moda
     // AngularFireDatabaseModule,
   ],
   entryComponents:[ModalPeticionComponent],
-  providers: [],
+  providers: [
+    { provide: LocationStrategy, useClass: HashLocationStrategy }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

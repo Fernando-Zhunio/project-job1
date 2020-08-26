@@ -8,8 +8,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
  
-
-
-
+hasId:boolean=false;
+constructor(){
+  if(!localStorage.getItem('myId'))this.hasId = false
+  else this.hasId = true;
+}
 
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import {
   AngularFirestore,
   AngularFirestoreCollection,
@@ -15,6 +15,7 @@ export class ClientComponent implements OnInit {
   ngOnInit() {
     this.heightGrib = window.innerHeight - 50;
   }
+  // @ViewChild('sidebar',{static:true}) sidebar:ElementRef<any>
   heightGrib: number;
   title = "chatfirebase";
   myId: string;
@@ -95,9 +96,6 @@ export class ClientComponent implements OnInit {
              this.keys = Object.keys(this.chats);
             delete this.keys[this.myId + "_client"];
             console.log(this.keys);
-            // return this.keys;
-          // }
-          // return [];
         }
       });
       this.openSideNav = false;
@@ -107,26 +105,9 @@ export class ClientComponent implements OnInit {
   // messages=[];
   suscribe_message: Subscription;
   selectChat(index) {
-    // this.currentChat = this.chats[index];
-    // //  this.suscribe_message.unsubscribe();
-    // this.suscribe_message = this.afs
-    //   .collection<any>(this.myId)
-    //   .doc(this.peticionId)
-    //   .collection(
-    //     "chats",
-    //     // .doc(this.currentChat.id).collection('messages',ref=>ref.orderBy('date')).valueChanges().subscribe(res=>{
-    //     (ref) => ref.orderBy("fecha")
-    //   )
-    //   .valueChanges()
-    //   .subscribe((res) => {
-    //     console.log("messages: ", res);
-
-    // this.messages = res;
-
+    // this.openSideNav = false;
     // this.openSideNav = true;
-    // });
-    // this.path.chatId = this.currentChat.messages.id
-    this.openSideNav = true;
+    // this.sidebar.toggle();
     this.currentChat = index;
   }
 

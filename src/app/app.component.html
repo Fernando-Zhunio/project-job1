@@ -1,16 +1,28 @@
-<mat-toolbar class="primary d-flex justify-content-between" color="#25187a">
-    <span>
-        <button mat-icon-button [matMenuTriggerFor]="menu">
-            <mat-icon>menu</mat-icon>
-        </button>
-        <mat-menu #menu="matMenu">
-            <button routerLink="/client" mat-menu-item>Perfil de cliente</button>
-            <button routerLink="/seller" mat-menu-item>Perfil de vendedor</button>
-            <button routerLink="/oferts" mat-menu-item>Ofertas</button>
-            <button routerLink="/create" mat-menu-item>Compras</button>
-        </mat-menu>
-        My Application
-    </span>
-    <button mat-raised-button routerLink="/seller" class="mr-2" class="float-right">Perfil de vendedor</button>
-</mat-toolbar>
-<router-outlet></router-outlet>
+<ng-container *ngIf="hasId; else elseTemplate">
+    <mat-toolbar class="primary">
+        <span>FZ</span>
+        <span class="spacer"></span>
+        <button routerLink="/client" mat-button><mat-icon>local_grocery_store</mat-icon> Mis Compras</button>
+        <button routerLink="/seller" mat-button><mat-icon>home_repair_service</mat-icon> Mis ventas</button>
+        <button routerLink="/oferts" mat-button><mat-icon>storefront</mat-icon> Ver Ofertas</button>
+        <button routerLink="/create" mat-button><mat-icon>add_business</mat-icon> Crear Compra</button>
+        <!-- <span>
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>menu</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button routerLink="/client" mat-menu-item>Perfil de cliente</button>
+                <button routerLink="/seller" mat-menu-item>Perfil de vendedor</button>
+                <button routerLink="/oferts" mat-menu-item>Ofertas</button>
+                <button routerLink="/create" mat-menu-item>Compras</button>
+            </mat-menu>
+        </span> -->
+        <!-- <button mat-raised-button routerLink="/seller" class="mr-2" class="float-right">Perfil de vendedor</button> -->
+    </mat-toolbar>
+    <router-outlet></router-outlet>
+</ng-container>
+<ng-template #elseTemplate>
+    <div class="vh-100 w-100 d-flex justify-content-center align-items-center">
+        <p>Crear un usuario</p>
+    </div>
+</ng-template>

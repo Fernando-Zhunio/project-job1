@@ -25,5 +25,9 @@ body {
 }
 
 button {
-    outline: none;
+    outline: none !important;
+}
+
+.mat-icon {
+    vertical-align: middle !important;
 }

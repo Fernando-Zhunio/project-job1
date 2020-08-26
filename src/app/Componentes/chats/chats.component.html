@@ -1,11 +1,18 @@
 <div class="h-100">
-    <mat-card class="h-100 rounded-0 pb-0">
-        <mat-card-header class="chat-header">{{messages[0]?.user}}</mat-card-header>
-        <mat-card-content #chatbody id="chatbody" class="card-body chat-body">
+    <mat-card class="primary h-100 rounded-0 pb-0 pr-0 ">
+        <!-- <mat-card-header *ngIf="messages" class="chat-header">{{messages[0]?.user}}</mat-card-header> -->
+        <mat-card-content #chatbody id="chatbody" class="chat-body pr-1 position-relative">
+            <div class="text-center h5 font-weight-bold sticky-top primary">
+                <img src="use" alt="user-send">
+                <div>{{messages[0]?.user}}</div>
+                <span>
+                <mat-icon color="warn">favorite</mat-icon>&nbsp;{{messages[0]?.precio}}</span>
+            </div>
             <div #messages *ngFor="let message of messages">
                 <ng-container *ngIf="message?.file; else elseTemplate">
                     <div class="m-2 text-center">
-                        <img [src]="message.file" class="rounded-circle" width="200px" height="200px" alt="">
+                        <img [src]="message.file" class="w-100 rounded" alt="">
+                        <div class="h5 bg-white text-dark p-2 m-1 mt-2 rounded">{{message?.message}}</div>
                     </div>
                 </ng-container>
                 <ng-template #elseTemplate>
@@ -24,23 +31,12 @@
                 </ng-template>
             </div>
         </mat-card-content>
-        <!-- <textarea (keyup)="keyUpSms()" [(ngModel)]="message" class="px" cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="3"></textarea> -->
         <mat-card-footer class=" chat-footer position-relative d-flex">
             <textarea (keyup)="keyUpSms()" wrap="physical" [(ngModel)]="message" class="textarea-style" cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="3">
             </textarea>
             <button [disabled]='!btnIsValid' (click)="sendMessage()" class="btn-send primary" mat-mini-fab>
                 <mat-icon>send</mat-icon>
             </button>
-            <!-- <button mat-mini-fab class="btn-send"><mat-icon>send</mat-icon></button> -->
-
-            <!-- <mat-form-field class="w-100" appearance="outline">
-                <mat-label>Escriba su mensaje</mat-label>
-                <button mat-mini-fab><mat-icon>send</mat-icon></button> -->
-            <!-- <textarea (keyup)="keyUpSms()" [(ngModel)]="message" class="" matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="3"></textarea> -->
-            <!-- <button [disabled]='!btnIsValid' (click)="sendMessage()" class="" mat-icon-button matSuffix>
-                    <mat-icon>send</mat-icon>
-                </button>
-            </mat-form-field> -->
         </mat-card-footer>
     </mat-card>
 </div>

@@ -1,21 +1,24 @@
-<div class="d-flex justify-content-center align-items-center vh-100 w-100">
-    <mat-card class="col-8">
+<div class="row d-flex justify-content-center align-items-center vh-100 w-100">
+    <div class="col-6">
+        <img src="assets/imagenes/shopping.svg" class="w-100" alt="">
+    </div>
+    <mat-card class="col-5">
         <mat-card-header>
-            <mat-card-title>Crear un pedido</mat-card-title>
-            <mat-card-subtitle>Subtitle</mat-card-subtitle>
+            <mat-card-title>Crear lo que quieres comprar</mat-card-title>
+            <mat-card-subtitle>Comprar</mat-card-subtitle>
         </mat-card-header>
         <!-- <img matCardImage src="Card wide image source"> -->
         <mat-card-content>
             <form [formGroup]="formPedido" (ngSubmit)="enviarPedido()">
                 <div class="example-container w-100">
-                    <mat-form-field class="w-100" appearance="fill">
+                    <mat-form-field class="w-100">
                         <mat-label>Pedido</mat-label>
                         <textarea matInput placeholder="Describa su pedido" formControlName="pedido" rows="5" required></textarea>
                         <mat-error *ngIf="!formPedido.controls['pedido'].valid">Descripcion del pedido requerido</mat-error>
                     </mat-form-field>
                 </div>
                 <div>
-                    <mat-form-field class="w-100" appearance="fill">
+                    <mat-form-field class="w-100">
                         <mat-label>Ingrese su precio</mat-label>
                         <input matInput type="number" formControlName="precio" class="example-right-align">
                         <span matPrefix>$&nbsp;</span>
@@ -24,9 +27,9 @@
                     </mat-form-field>
                 </div>
                 <div>
-                    <mat-form-field class="w-100" appearance="fill">
-                        <mat-label>Select</mat-label>
-                        <mat-select formControlName="categoria">
+                    <mat-form-field class="w-100">
+                        <mat-label>Seleccione la categotia</mat-label>
+                        <mat-select formControlName="categoria" required>
                             <mat-option *ngFor="let item of categorias;index as i" [value]="i">{{item.value}}</mat-option>
                         </mat-select>
                     </mat-form-field>

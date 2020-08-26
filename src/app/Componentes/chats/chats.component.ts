@@ -29,7 +29,7 @@ export class ChatsComponent implements OnInit {
   // isMy
   message: string;
   newMessage: Object;
-  btnIsValid = true;
+  btnIsValid = false;
 
   constructor(private afs: AngularFirestore) {}
 
