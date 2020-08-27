@@ -1,0 +1,38 @@
+.mat-sidenav {
+    width: 300px;
+}
+
+.card {
+    // background-color: ;
+}
+
+.count {
+    color: black;
+    padding: 2px 4px;
+    border-radius: 4px;
+    background-color: rgb(238, 204, 9);
+}
+
+.example-card {
+    max-width: 400px;
+}
+
+.example-header-image {
+    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+    background-size: cover;
+}
+
+.over-auto {
+    overflow-y: scroll;
+}
+
+.panel-left {
+    height: calc(100% - 40px);
+    overflow-y: scroll;
+}
+
+.tool {
+    position: absolute;
+    bottom: 0;
+    height: 40px;
+}

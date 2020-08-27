@@ -1,0 +1,37 @@
+<mat-sidenav-container>
+    <mat-sidenav-content>
+        <mat-grid-list cols="4" [rowHeight]="heightGrib+'px'">
+            <!-- <mat-grid-tile colspan="4"> 
+            </mat-grid-tile> -->
+            <mat-grid-tile colspan="4" rowspan="1">
+                <div class=" border-right h-100 w-100">
+                    <div class="text-center p-2">
+                        <button mat-raised-button class="mr-2">Ofertas</button>
+                        <button mat-raised-button color="primary">Compras</button>
+                    </div>
+                    <div class="col">
+                        <input type="search" class="form-control" name="search" placeholder="buscar comprar">
+                    </div>
+                    <div class="px-3 mt-2">
+                        <mat-card color="primary" class="bg-dark" *ngFor="let item of clients" class="my-1" (click)="selectChat(item)">
+                            <mat-chip-list class="m-0 p-0">
+                                <p>
+                                    <mat-chip>9</mat-chip> {{item.message}}
+                                </p>
+                            </mat-chip-list>
+                            <mat-card-subtitle>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <!-- <mat-icon>{{item.data.icon}}</mat-icon> <span>{{item.categoria}}</span> -->
+                                {{item.to}}
+                            </mat-card-subtitle>
+                        </mat-card>
+                    </div>
+                </div>
+            </mat-grid-tile>
+        </mat-grid-list>
+    </mat-sidenav-content>
+    <mat-sidenav position="end" mode="side" [opened]="openSideNav" class="sidenav">
+        <app-chats [forId]="peticionId?.to" [messages]="chats" [isMy]="false" [peticionId]="peticionId?.peticion_id" class="col-3 p-0 m-0">
+            <!-- <app-chats [currentChat]="currentChat" [messages]="messages" [peticionId]="peticionId" class="col-3 p-0 m-0"> -->
+        </app-chats>
+    </mat-sidenav>
+</mat-sidenav-container>

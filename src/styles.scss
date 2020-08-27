@@ -4,3 +4,30 @@ body {
     padding: 0;
     margin: 0;
 }
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.primary {
+    background-color: #25187a !important;
+    color: white;
+}
+
+.color-primary {
+    color: #25187a !important;
+}
+
+button {
+    outline: none !important;
+}
+
+.mat-icon {
+    vertical-align: middle !important;
+}

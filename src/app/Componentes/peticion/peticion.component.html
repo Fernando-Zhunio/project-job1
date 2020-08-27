@@ -1,0 +1,73 @@
+<div>
+    <div class="row p-0 m-0">
+        <div class="col-2 border-right vh-100">
+            <strong>Categorias</strong>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Active</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-10">
+            <div class="row m-0 p-0">
+                <div class="container mt-3">
+                    <div class="card-columns">
+                        <div *ngFor="let item of peticiones" class="card">
+                            <div class="card-body">
+                                <p class="card-text">{{item.pedido.descripcion}}</p>
+                                <p class="card-text">${{item.pedido.precio}}</p>
+                                <p class="card-text">{{item.pedido.fecha | date}}</p>
+                                <small class="text-muted"><mat-icon>{{item.pedido.icon}}</mat-icon> {{item.pedido.categoria}}</small>
+                                <div>
+                                    <!-- <button type="button" class="btn btn-primary" (click)="showModal(item.url)" data-toggle="modal" data-target="#exampleModal">
+                                        Enviar mensaje
+                                      </button> -->
+                                    <button mat-raised-button color="primary" (click)="sendMessage(item.url)">Enviar un mensaje</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Enviar mensaje a {{currentTo?.to}}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="formMessage" (ngSubmit)="sendMessage()">
+                        <div class="form-group">
+                            <label for="">Mensaje</label>
+                            <input formControlName="message" type="text" name="" id="" class="form-control" placeholder="" aria-describedby="helpId">
+                        </div>
+                        <div class="form-group">
+                            <label for="">Imagen</label>
+                            <input (change)="uploadImg($event)" accept=".jpg,.png" type="file" name="" id="" class="form-control" placeholder="" aria-describedby="helpId">
+                        </div>
+                        <div class="form-group">
+                            <label for="">Precio</label>
+                            <input formControlName=precio type="number" name="" id="" class="form-control" placeholder="" aria-describedby="helpId">
+                        </div>
+                        <button class="btn btn-success mr-2" type="submit">Enviar mensaje</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div> -->
+</div>

@@ -1,0 +1,37 @@
+<h1 mat-dialog-title>Mensaje para {{data.to}}</h1>
+<div mat-dialog-content>
+    <form [formGroup]="formMessage" (ngSubmit)="sendMessage()">
+        <!-- <div class="form-group">
+            <label for="">Mensaje</label>
+            <textarea formControlName="message" type="text" rows="4" name="" id="" class="form-control" placeholder="" aria-describedby="helpId"></textarea>
+        </div> -->
+
+        <mat-form-field class="w-100" appearance="fill">
+            <mat-label>Mensaje</mat-label>
+            <textarea matInput placeholder="Escriba su mensaje" formControlName="message" rows="4" required></textarea>
+            <mat-error *ngIf="!formMessage.controls['message'].valid">Mensaje es requerido</mat-error>
+        </mat-form-field>
+        <mat-form-field class="w-100" appearance="fill">
+            <mat-label>Precio</mat-label>
+            <span matPrefix>$ &nbsp;</span>
+            <input type="number" matInput placeholder="Ingrese el precio" formControlName="precio" required>
+            <mat-error *ngIf="!formMessage.controls['precio'].valid">Precio es requerido</mat-error>
+        </mat-form-field>
+        <div class="form-group">
+            <label for="">Imagen</label>
+            <input formControlName="file" (change)="uploadImg($event)" accept=".jpg,.png" type="file" name="" id="" class="form-control" placeholder="" aria-describedby="helpId">
+        </div>
+        <!-- <div class="form-group">
+            <label for="">Precio</label>
+            <input formControlName=precio type="number" name="" id="" class="form-control" placeholder=""
+                aria-describedby="helpId">
+        </div> -->
+
+        <!-- <button mat-raised-button class=" mr-2" type="submit">Enviar mensaje</button> -->
+        <!-- <button type="button" mat-raised-button class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+    </form>
+</div>
+<div mat-dialog-actions>
+    <button mat-raised-button color="primary" (click)="sendMessage()" cdkFocusInitial>Enviar</button>
+    <button mat-raised-button color="warn" [mat-dialog-close]="{state:false}">Cancelar</button>
+</div>
